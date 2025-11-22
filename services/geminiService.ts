@@ -2,7 +2,7 @@ import { GoogleGenAI, Type, Chat } from "@google/genai";
 import { Note, Language } from '../types';
 
 const apiKey = process.env.API_KEY || '';
-const ai = new GoogleGenAI({ apiKey });
+const ai = new GoogleGenAI({ AIzaSyAq9G8du5YxzB3qqomwi4EP57X9lw60a3c });
 
 const PASTEL_COLORS = [
   '#ffeded', // Light Pink
