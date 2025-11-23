@@ -2,7 +2,7 @@ import { GoogleGenAI, Type, Chat } from "@google/genai";
 import { Note, Language } from '../types';
 
 const apiKey = process.env.API_KEY || '';
-const ai = new GoogleGenAI({ AIzaSyAq9G8du5YxzB3qqomwi4EP57X9lw60a3c });
+const ai = new GoogleGenAI({ apiKey });
 
 const PASTEL_COLORS = [
   '#ffeded', // Light Pink
@@ -19,7 +19,7 @@ const PASTEL_COLORS = [
 export const generateSampleNotes = async (lang: Language = 'en'): Promise<Note[]> => {
   try {
     const langPrompt = lang === 'zh-CN' ? 'Simplified Chinese' : lang === 'zh-TW' ? 'Traditional Chinese' : lang === 'ja' ? 'Japanese' : 'English';
-    
+
     const response = await ai.models.generateContent({
       model: 'gemini-2.5-flash',
       contents: `Generate 6 short, emotional, heartbreaking, or bittersweet anonymous messages in ${langPrompt}. They should be addressed to ex-lovers, lost friends, or past selves. Keep them under 140 characters.`,
@@ -41,7 +41,7 @@ export const generateSampleNotes = async (lang: Language = 'en'): Promise<Note[]
     });
 
     const rawData = JSON.parse(response.text || '[]');
-    
+
     return rawData.map((item: any, index: number) => ({
       id: `ai-${Date.now()}-${index}`,
       to: item.to,
@@ -73,7 +73,7 @@ export const generateSampleNotes = async (lang: Language = 'en'): Promise<Note[]
  * Generates a hypothetical note.
  */
 export const generateHypotheticalNote = async (name: string, lang: Language = 'en'): Promise<Note> => {
-   try {
+  try {
     const langPrompt = lang === 'zh-CN' ? 'Simplified Chinese' : lang === 'zh-TW' ? 'Traditional Chinese' : lang === 'ja' ? 'Japanese' : 'English';
 
     const response = await ai.models.generateContent({
@@ -104,17 +104,17 @@ export const generateHypotheticalNote = async (name: string, lang: Language = 'e
       isAiGenerated: true
     };
 
-   } catch (error) {
-     return {
-       id: 'error-hypo',
-       to: name,
-       from: '?',
-       message: 'The silence here is loud, but I hope you are doing well.',
-       timestamp: Date.now(),
-       color: '#f2f2f2',
-       isAiGenerated: true
-     };
-   }
+  } catch (error) {
+    return {
+      id: 'error-hypo',
+      to: name,
+      from: '?',
+      message: 'The silence here is loud, but I hope you are doing well.',
+      timestamp: Date.now(),
+      color: '#f2f2f2',
+      isAiGenerated: true
+    };
+  }
 }
 
 /**
